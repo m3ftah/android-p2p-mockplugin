@@ -1,0 +1,11 @@
+# Directories #
+######################
+build
+out 
+.gradle
+
+
+# IDE generated files #
+######################
+.idea 
+*.iml 
