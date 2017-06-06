@@ -23,6 +23,5 @@ uploadArchives {
         mavenDeployer {
             repository(url: uri('../MockPlugin'))
         }
-
     }
 }

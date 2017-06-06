@@ -27,7 +27,6 @@ class EditFilesTask extends DefaultTask{
                     ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'", byline: "true")
                 }
             }
-
         }
         println "':appMock' added to settings.gradle"
     }
