@@ -12,6 +12,7 @@ class LaunchDockerTask extends DefaultTask {
 
     StringBuffer exout = new StringBuffer() //Standard output of a command
     StringBuffer exerr = new StringBuffer() //Error output of a command
+
     def exec(String command) {  //'redefine' execute() in order to print the outputs
         command.execute().consumeProcessOutput(exout, exerr)
         command.execute().waitForProcessOutput()
@@ -58,5 +59,6 @@ class LaunchDockerTask extends DefaultTask {
 
         println '*androfleet-master log:'
         exec("docker logs -f androfleet-master")
+
     }
 }
