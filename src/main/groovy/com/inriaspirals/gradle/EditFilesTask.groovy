@@ -5,8 +5,8 @@ import org.gradle.api.tasks.TaskAction
 
 
 class EditFilesTask extends DefaultTask{
-    String group = "mockplugin"
-    String description = "copy of files"
+    String group = "mockplugin/primary"
+    String description = "edit the src files to make them use our mock library"
 
     @TaskAction
     def editFiles() {
@@ -22,7 +22,6 @@ class EditFilesTask extends DefaultTask{
         def SetGra = project.file("${project.rootDir}/settings.gradle")
         SetGra.eachLine { def line ->
             if (line.startsWith("include")) {
-                ant.replaceregexp(file: SetGra, match: line, replace: line, byline:"true")
                 if (line.indexOf(",':appMock'") < 0) {
                     ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'", byline: "true")
                 }
