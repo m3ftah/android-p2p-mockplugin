@@ -1,26 +1,15 @@
 package com.inriaspirals.gradle
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-class LaunchDockerTask extends DefaultTask {
-    String group = "mockplugin"
+
+class LaunchDockerTask extends MockPluginDockerMethods {
+    String group = "mockplugin/primary"
     String description = "init and launch Docker and Androfleet"
 
-    int NB_NODES
-    int ANDROID_VERSION
-
-    StringBuffer exout = new StringBuffer() //Standard output of a command
-    StringBuffer exerr = new StringBuffer() //Error output of a command
-
-    def exec(String command) {  //'redefine' execute() in order to print the outputs
-        command.execute().consumeProcessOutput(exout, exerr)
-        command.execute().waitForProcessOutput()
-        if( exout.size() > 0 ) println exout
-        if( exerr.size() > 0 ) println exerr
-        if( exout.size() > 0 ) exout.setLength(0)
-        if( exerr.size() > 0 ) exerr.setLength(0)
-    }
+    Integer NB_NODES
+    Integer ANDROID_VERSION
+    String ADB_PATH
 
     @TaskAction
     def launch() {
@@ -28,11 +17,13 @@ class LaunchDockerTask extends DefaultTask {
 
         println 'NB_NODES= '+NB_NODES
         println 'ANDROID_VERSION= '+ANDROID_VERSION
+        println 'ADB_PATH= '+ADB_PATH+'\n'
+
 
         println '*Launching docker'
         exec("pwd")
 
-        println '*Cleaning...'
+        /*println '*Cleaning...'
         exec("${HOME}/Documents/androfleet/docker/cleanAndrofleet.py") //this is an absolute path, need to find generic method
 
         println '*Launching Weave'
@@ -42,15 +33,14 @@ class LaunchDockerTask extends DefaultTask {
         exec("weave expose")
 
         println '*Launching adb'
-        exec("${HOME}/Android/Sdk/platform-tools/adb devices")
+        exec("${ADB_PATH} devices")
 
         println '*Redirecting adb port to weave'
-        exec("redir --cport 5037 --caddr 127.0.0.1 --lport 5037 --laddr 10.32.0.2 &")
+        exec("redir --cport 5037 --caddr 127.0.0.1 --lport 5037 --laddr 192.168.49.1 &")
 
         println '*Launching Master'
         exec("${HOME}/Documents/androfleet/docker/master.py ${NB_NODES}")
 
-        sleep(2000)
         println '*Launching Service Discovery'
         exec("${HOME}/Documents/androfleet/docker/servicediscovery.py")
 
@@ -58,7 +48,7 @@ class LaunchDockerTask extends DefaultTask {
         exec("${HOME}/Documents/androfleet/docker/node.py ${NB_NODES}")
 
         println '*androfleet-master log:'
-        exec("docker logs -f androfleet-master")
+        exec("docker logs -f androfleet-master")*/
 
     }
 }
