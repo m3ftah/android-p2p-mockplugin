@@ -4,9 +4,9 @@
 
 To use the plugin, download and unzip the release MockPlugin.zip file. Place it where you want in your workspace. This is the plugin repository.
 
-Necessary changes to use the mockplugin:
+Necessary changes to use the mockplugin (add them all before building your application):
 
-Add the following lines to the **top-level build.gradle** in your Android Studio project repository
+-Add the following lines to the **top-level build.gradle** in your Android Studio project repository
 
 ```
 apply plugin: 'com.inriaspirals.mockplugin'
@@ -22,22 +22,29 @@ buildscript {
   }
 }
 ```
+-Add the following lines to the **app-level build.gradle** in your Android Studio project repository
 
+```
+dependencies {
+  compile files ('libs/mock.jar')
+}
+```
+-To set the environment variables for the plugin, add the following lines to the **top-level build.gradle** in your Android Studio project repository
+```
+androfleet {
+//the following values are example values
+  nodes 2
+  androidVersion 23
+}
+```
 ## Compile the plugin yourself
 
 The mockplugin was created using *Intellij IDEA 2017.1.3 Community version*.
 
 Download the source code and open the project with Intellij IDEA.
 
-After building the project, you can find the "uploadArchive" gradle task under the "Tasks/upload/" folder in the gradle sidebar (on the right). Double-click on it will create a repository **'MockPlugin/'** in the same repository than where your project is.
+After building the project, you can find the "uploadArchive" gradle task under the "Tasks/upload/" folder in the gradle sidebar (on the right). Double-click on it will create a repository **'Mock_Plugin/'** in the same repository than where your project is.
 
-You can then use the plugin by following the instructions of *Use the plugin using the release version* above, the plugin repository will be the 'MockPlugin/' repository you just created. 
+You can then use the plugin by following the instructions of *Use the plugin using the release version* above, the plugin repository will be the 'Mock_Plugin/' repository you just created.
 
-
-## Content
-
-The plugin will add tasks to Android Studio.
-
-- **copyFiles** will copy all the app/ repository (except the build/ subfolder) into an appMock/ repository at the root repository of your Android Studio project. Il will also implement the mock.jar library inside appMock/libs/
-
-- **editFiles** will first call 'copyFiles', then it will change the imports of android.net.wifi.p2p into imports of mock.net.wifi.p2p inside every .java files. It will also edit the settings.gradle file to allow Android Studio to compile the appMock project
+**Note:** if you export the project several times you will need to stop the Daemon in Android Studio using ```./gradlew -stop``` in the terminal in order for the copyFiles task to work properly. You will need to do that every time you re-upload the plugin and want to copy the files again otherwise the mock.jar librarie contained in the plugin will not be read properly.
