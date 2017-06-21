@@ -7,9 +7,6 @@ class LaunchDockerTask extends MockPluginDockerMethods {
     String group = "mockplugin/primary"
     String description = "init and launch Docker and Androfleet"
 
-    Integer NB_NODES
-    Integer ANDROID_VERSION
-    String ADB_PATH
 
     @TaskAction
     def launch() {
@@ -17,38 +14,42 @@ class LaunchDockerTask extends MockPluginDockerMethods {
 
         println 'NB_NODES= '+NB_NODES
         println 'ANDROID_VERSION= '+ANDROID_VERSION
+        println 'FEATURES_PATH= '+FEATURES_PATH
         println 'ADB_PATH= '+ADB_PATH+'\n'
 
 
         println '*Launching docker'
         exec("pwd")
 
-        /*println '*Cleaning...'
-        exec("${HOME}/Documents/androfleet/docker/cleanAndrofleet.py") //this is an absolute path, need to find generic method
+        println '*Cleaning...'
+        cleanandrofleet()
 
         println '*Launching Weave'
-        exec("weave launch")
+        exec("weave launch --ipalloc-range 192.168.48.0/23")
 
         println '*Exposing Weave'
         exec("weave expose")
+
+        println '*Exposing xhost'
+        exec("xhost +")
 
         println '*Launching adb'
         exec("${ADB_PATH} devices")
 
         println '*Redirecting adb port to weave'
-        exec("redir --cport 5037 --caddr 127.0.0.1 --lport 5037 --laddr 192.168.49.1 &")
+        exec("redir --cport 5037 --caddr 127.0.0.1 --lport 5037 --laddr 192.168.48.1 &")
 
         println '*Launching Master'
-        exec("${HOME}/Documents/androfleet/docker/master.py ${NB_NODES}")
+        master()
 
         println '*Launching Service Discovery'
-        exec("${HOME}/Documents/androfleet/docker/servicediscovery.py")
+        servicediscovery()
 
         println '*Launching Nodes'
-        exec("${HOME}/Documents/androfleet/docker/node.py ${NB_NODES}")
+        node()
 
         println '*androfleet-master log:'
-        exec("docker logs -f androfleet-master")*/
+        exec("docker logs -f androfleet-master")
 
     }
 }

@@ -12,7 +12,7 @@ NB_NODES = sys.argv[1]
 print("NB_NODES = " + str(NB_NODES))
 
 #APP = 'fr.inria.rsommerard.fougereapp/.MainActivity'
-APP = 'com.example.wifidirect'
+APP = 'com.colorcloud.wifichat'
 PATH = os.path.dirname(os.path.realpath(__file__))
 # set weave env before launching containers
 #print("Setting weave env...")

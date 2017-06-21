@@ -10,6 +10,7 @@ class CleanTask extends DefaultTask{
     @TaskAction
     def cleanAll() {
 
+        //delete changes done to the settings.gradle
         def SetGra = project.file("${project.rootDir}/settings.gradle")
         SetGra.eachLine { def line ->
             if (line.indexOf(",':appMock'") > 0) {
@@ -17,6 +18,7 @@ class CleanTask extends DefaultTask{
             }
         }
 
+        //delete all the appMock repository
         ant.delete(dir: "${project.rootDir}/appMock")
     }
 }

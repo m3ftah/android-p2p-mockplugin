@@ -17,7 +17,7 @@ class MockPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
 
-            //get the sdkDir and then the adb path (couldn't get it automatically for some strange reason)
+            //get the sdkDir and then the adb path
             def rootDir = project.rootDir
             def localProperties = new File(rootDir, "local.properties") //suppose that the file exists
             if (localProperties.exists()) {
@@ -32,6 +32,11 @@ class MockPlugin implements Plugin<Project> {
                     }
                 }
             }
+            if(adbPath == null) {println "adb path not found"}
+
+            //get the package name of the app
+            def package_name = new XmlSlurper().parse("${project.rootDir}/app/src/main/AndroidManifest.xml").@package
+            if (package_name == null) {println "package name of the app not found"}
 
 
             //creation of the tasks
@@ -43,7 +48,9 @@ class MockPlugin implements Plugin<Project> {
 
                 NB_NODES = project.extensions.androfleet.nodes
                 ANDROID_VERSION = project.extensions.androfleet.androidVersion
+                FEATURES_PATH = project.extensions.androfleet.featuresPath
                 ADB_PATH = adbPath
+                PACKAGE = package_name
 
             }
 
@@ -58,7 +65,12 @@ class MockPlugin implements Plugin<Project> {
             project.tasks.create(name: "nodes", type: NodeTask) {
 
                 NB_NODES = project.extensions.androfleet.nodes
+                PACKAGE = package_name
 
+            }
+
+            project.tasks.create(name: "reportNodes", type: ReportTask) {
+                NB_NODES = project.extensions.androfleet.nodes
             }
 
             project.tasks.create(name: "servicediscovery", type: ServiceDiscoveryTask) {
