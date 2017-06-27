@@ -14,7 +14,6 @@ class LaunchDockerTask extends MockPluginDockerMethods {
 
         println 'NB_NODES= '+NB_NODES
         println 'ANDROID_VERSION= '+ANDROID_VERSION
-        println 'FEATURES_PATH= '+FEATURES_PATH
         println 'ADB_PATH= '+ADB_PATH+'\n'
 
 

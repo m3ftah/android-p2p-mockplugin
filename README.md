@@ -35,8 +35,27 @@ androfleet {
 //the following values are example values
   nodes 2
   androidVersion 23
+  androfleetPath = "path/to/your/androfleet/folder"
 }
 ```
+
+## Features
+
+This plugin will add several tasks to the Android Studio environment under mockplugin/primary/ and mockplugin/secondary/
+
+-**initMock** create all the temporary files needed to use the rest of the plugin correctly. It should always be executed first and only one time
+
+-**cleanMock** allows to delete every temporary files created by the plugin. If you want to use the plugin again, run 'initMock' again
+
+-**buildMock** allows you to build the project and add the built apk to your androfleet folder. Should be run again only if the code of appMock is modified
+
+-**launchDocker** will start Docker and launch the nodes
+
+-**launchCalabash** will run the calabash scripts on each respective node and create execution reports
+
+-**reportNodes** will display the content of the reports created by the 'launchCalabash' task
+
+
 ## Compile the plugin yourself
 
 The mockplugin was created using *Intellij IDEA 2017.1.3 Community version*.

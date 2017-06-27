@@ -5,11 +5,11 @@ class MockPluginExtensions {
 
     Integer nodes
     Integer androidVersion
-    String featuresPath
+    String androfleetPath
 
     MockPluginExtensions () {
         nodes = -1
         androidVersion = -1
-        featuresPath = null
+        androfleetPath = null
     }
 }

@@ -1,16 +1,13 @@
 package com.inriaspirals.gradle
 
 import org.gradle.api.DefaultTask
+import groovy.io.FileType
 import org.gradle.api.tasks.TaskAction
-
-import java.nio.file.Files
-import java.nio.file.Path
 
 
 class CopyFilesTask extends DefaultTask{
     String group = "mockplugin/secondary"
     String description = "copy the content of app/ into appMock/"
-
 
     @TaskAction
     def copyFiles() {
@@ -44,9 +41,24 @@ class CopyFilesTask extends DefaultTask{
             }
         }
 
-        //Give execution permissions for the python scripts
-        def builder = new AntBuilder()
-        builder.chmod(dir:"${project.rootDir}/appMock/src/mock_src", perm:'+x', includes:"**/*.py")
+        //Unzip docker.zip inside 'appMock/src/mock_res
+        CopyFilesTask.class.getResource( '/docker.zip' ).withInputStream { ris ->
+            new File( "${project.rootDir}/appMock/src/mock_src/docker.zip" ).withOutputStream { fos ->
+                fos << ris
+            }
+        }
+        ant.unzip(src: "${project.rootDir}/appMock/src/mock_src/docker.zip", dest:"${project.rootDir}/appMock/src/mock_src", overwrite:"false" )
+        ant.delete(file: "${project.rootDir}/appMock/src/mock_src/docker.zip")
+
+        //Give execution permissions to all the files in appMock/src/mock_src/
+        def list = []
+        def dir = new File("${project.rootDir}/appMock/src/mock_src")
+        dir.eachFileRecurse (FileType.FILES) { file ->
+            list << file
+        }
+        list.each {
+            ant.chmod(file: it , perm:'+x')
+        }
 
     }
 }

@@ -8,11 +8,11 @@ import time
 print('Node')
 
 NB_NODES = sys.argv[1]
+APP = sys.argv[2]
 
 print("NB_NODES = " + str(NB_NODES))
+print("APP = "+str(APP))
 
-#APP = 'fr.inria.rsommerard.fougereapp/.MainActivity'
-APP = 'com.colorcloud.wifichat'
 PATH = os.path.dirname(os.path.realpath(__file__))
 # set weave env before launching containers
 #print("Setting weave env...")
