@@ -22,13 +22,7 @@ buildscript {
   }
 }
 ```
--Add the following lines to the **app-level build.gradle** in your Android Studio project repository
 
-```
-dependencies {
-  compile files ('libs/mock.jar')
-}
-```
 -To set the environment variables for the plugin, add the following lines to the **top-level build.gradle** in your Android Studio project repository
 ```
 androfleet {
