@@ -23,7 +23,7 @@ class CalabashTask extends DefaultTask{
 
         if (apk_path.exists()) {
             for (int i=1;i<=NB_NODES;i++) {
-                "calabash-android run ${ANDROFLEET_PATH}/app-debug.apk ADB_DEVICE_ARG=192.168.49.${i} -f json -o ${ANDROFLEET_PATH}/results/node${i}.json -f html -o ${ANDROFLEET_PATH}/result/node${i}.html &".execute()
+                "calabash-android run ${ANDROFLEET_PATH}/appMock-debug.apk ADB_DEVICE_ARG=192.168.49.${i} -f json -o ${ANDROFLEET_PATH}/results/node${i}.json -f html -o ${ANDROFLEET_PATH}/result/node${i}.html &".execute()
             }
         }
         else {
