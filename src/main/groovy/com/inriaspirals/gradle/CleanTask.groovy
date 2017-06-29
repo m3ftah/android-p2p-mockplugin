@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 
 
 class CleanTask extends DefaultTask{
-    String group = "mockplugin/primary"
+    String group = "androfleet/mock"
     String description = "clean the all changes done by the mockplugin"
 
     @TaskAction

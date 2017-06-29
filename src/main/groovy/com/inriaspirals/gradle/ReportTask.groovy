@@ -3,8 +3,8 @@ package com.inriaspirals.gradle
 import org.gradle.api.tasks.TaskAction
 
 
-class ReportTask extends MockPluginDockerMethods{
-    String group = "mockplugin/primary"
+class ReportTask extends AndrofleetMethods{
+    String group = "androfleet/tests"
     String description = "print the calabash reports for each node"
 
     String ANDROFLEET_PATH
@@ -32,7 +32,7 @@ class ReportTask extends MockPluginDockerMethods{
                 println "*Report for the node n°${i} not found"
                 println "\n----------------------------------------"
             }
-
         }
+
     }
 }

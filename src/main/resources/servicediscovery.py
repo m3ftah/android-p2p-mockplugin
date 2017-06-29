@@ -26,9 +26,4 @@ process = subprocess.Popen(['docker', 'run', '--name', 'androfleet-servicediscov
 '-v',PATH + '/build:/build',
  '-d', '-e', 'WEAVE_CIDR=192.168.48.2/23', 'm3ftah/androfleet', 'servicediscovery'], stdout=subprocess.PIPE)
 
-output = str(process.communicate()[0], 'UTF-8')
-
-with open('androfleet.info', 'a+') as f:
-    f.write("ServiceDiscovery=" + output)
-
 time.sleep(3)

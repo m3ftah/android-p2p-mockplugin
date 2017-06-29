@@ -4,8 +4,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 
-class CalabashTask extends DefaultTask{
-    String group = "mockplugin/primary"
+class LaunchCalabashTask extends AndrofleetMethods{
+    String group = "androfleet/tests"
     String description = "launch the calabash scripts on the nodes created with the launchDocker task"
 
     String ANDROFLEET_PATH
@@ -14,6 +14,19 @@ class CalabashTask extends DefaultTask{
     @TaskAction
     def launchcalabash() {
 
+        //copy the python script calabash.py into 'tmp_androfleet'
+        def tmp_path = new File("${project.rootDir}/tmp_androfleet")
+        if (!tmp_path.exists()) {
+            tmp_path.mkdir()
+        }
+        LaunchCalabashTask.class.getResource( "/calabashRun.py" ).withInputStream { ris ->
+            new File("${project.rootDir}/tmp_androfleet/calabashRun.py").withOutputStream { fos ->
+                fos << ris
+            }
+        }
+        ant.chmod(dir: "${project.rootDir}/tmp_androfleet" , perm:'+x', includes: '**/*.py')
+
+        //Create the 'results' repository
         def apk_path = new File("${ANDROFLEET_PATH}/appMock-debug.apk")
         def results_path = new File("${ANDROFLEET_PATH}/results")
         if (!results_path.exists()) {
@@ -23,11 +36,12 @@ class CalabashTask extends DefaultTask{
 
         if (apk_path.exists()) {
             for (int i=1;i<=NB_NODES;i++) {
-                "calabash-android run ${ANDROFLEET_PATH}/appMock-debug.apk ADB_DEVICE_ARG=192.168.49.${i} -f json -o ${ANDROFLEET_PATH}/results/node${i}.json -f html -o ${ANDROFLEET_PATH}/result/node${i}.html &".execute()
+                exec("${project.rootDir}/tmp_androfleet/calabashRun.py ${i} ${ANDROFLEET_PATH}")
             }
         }
         else {
             println "\n ERROR: It looks like the 'buildMock' task was not executed before. Please execute the 'buildMock' task before this one (you only need to do it once, not everytime you want to run 'launchCalabash')"
         }
+
     }
 }

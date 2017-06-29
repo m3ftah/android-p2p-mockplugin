@@ -5,14 +5,14 @@ import org.gradle.api.Project
 import static groovy.io.FileType.FILES
 
 
-class MockPlugin implements Plugin<Project> {
+class AndrofleetPlugin implements Plugin<Project> {
 
     String adbPath
 
     @Override
     void apply(Project project) {
 
-        project.extensions.create("androfleet", MockPluginExtensions)
+        project.extensions.create("androfleet", AndrofleetExtensions)
 
         project.afterEvaluate {
 
@@ -39,9 +39,8 @@ class MockPlugin implements Plugin<Project> {
 
 
             //creation of the tasks
-            project.tasks.create(name: "copyFiles", type: CopyFilesTask) {}
 
-            project.tasks.create(name: "initMock", type: EditFilesTask, dependsOn: 'copyFiles') {}
+            project.tasks.create(name: "initMock", type: InitFilesTask) {}
 
             project.tasks.create(name: "cleanMock", type: CleanTask) {}
 
@@ -51,42 +50,31 @@ class MockPlugin implements Plugin<Project> {
 
             }
 
-            project.tasks.create(name: "launchDocker", type: LaunchDockerTask) {
+            project.tasks.create(name: "launchEmulators", type: LaunchAndrofleetTask) {
 
                 NB_NODES = project.extensions.androfleet.nodes
                 ANDROID_VERSION = project.extensions.androfleet.androidVersion
                 ADB_PATH = adbPath
                 PACKAGE = package_name
+                DATA_EXCHANGE_PORT = project.extensions.androfleet.dataExchangePort
 
             }
 
-            project.tasks.create(name: "cleanandrofleet", type: CleanAndrofleetTask) {}
+            project.tasks.create(name: "cleanAndrofleet", type: CleanAndrofleetTask) {}
 
-            project.tasks.create(name: "master", type: MasterTask) {}
-
-            project.tasks.create(name: "nodes", type: NodeTask) {
-
-                NB_NODES = project.extensions.androfleet.nodes
-                PACKAGE = package_name
-
-            }
-
-            project.tasks.create(name: "servicediscovery", type: ServiceDiscoveryTask) {}
-
-            project.tasks.create(name: "reportNodes", type: ReportTask) {
+            project.tasks.create(name: "launchTests", type: LaunchCalabashTask) {
 
                 ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
                 NB_NODES = project.extensions.androfleet.nodes
 
             }
 
-            project.tasks.create(name: "launchCalabash", type: CalabashTask) {
+            project.tasks.create(name: "printTestReport", type: ReportTask) {
 
                 ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
                 NB_NODES = project.extensions.androfleet.nodes
 
             }
-
         }
     }
 }

@@ -11,8 +11,6 @@ if os.path.exists('log'):
 
 if os.path.exists('log.zip'):
     os.remove('log.zip')
-if os.path.exists('androfleet.info'):
-    os.remove('androfleet.info')
 
 print('Stopping running containers...')
 process = subprocess.Popen(['docker', 'ps', '-a'], stdout=subprocess.PIPE)

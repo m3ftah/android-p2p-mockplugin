@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 
 
 class BuildTask extends DefaultTask{
-    String group = "mockplugin/primary"
+    String group = "androfleet/mock"
     String description = "build the project and add the built apk to the androfleet folder"
 
     String ANDROFLEET_PATH

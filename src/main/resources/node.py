@@ -9,6 +9,7 @@ print('Node')
 
 NB_NODES = sys.argv[1]
 APP = sys.argv[2]
+DATA_EXCHANGE_PORT = sys.argv[3]
 
 print("NB_NODES = " + str(NB_NODES))
 print("APP = "+str(APP))
@@ -40,11 +41,7 @@ for i in range(int(NB_NODES)):
     #'-p', '555' + str(i*2 + 4) + ':5554',
     #'-p', '555' + str(i*2 + 5) + ':5555',
     '-v',PATH + '/build:/build',
-     'm3ftah/androfleet', 'node', APP, str(i)], stdout=subprocess.PIPE)
+     'm3ftah/androfleet', 'node', APP, str(i), DATA_EXCHANGE_PORT], stdout=subprocess.PIPE)
     #process = subprocess.Popen(['docker', 'run', '--name', 'androfleet-node' + str(i), '-d','--log-driver=gelf','--log-opt' ,'gelf-address=udp://172.17.0.3:12201','--log-opt','tag="node"' ,'--privileged', 'rsommerard/androfleet', 'node', APP], stdout=subprocess.PIPE)
-    output = str(process.communicate()[0], 'UTF-8')
-
-    with open('androfleet.info', 'a+') as f:
-        f.write("Node=" + output)
 
 print(str(i + 1) + ' nodes launched.')
