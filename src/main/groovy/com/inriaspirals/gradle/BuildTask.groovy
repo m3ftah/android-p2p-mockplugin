@@ -13,7 +13,12 @@ class BuildTask extends DefaultTask{
     @TaskAction
     def buildmock() {
 
-        ant.copy(file: "${project.rootDir}/appMock/build/outputs/apk/appMock-debug.apk", tofile: "${ANDROFLEET_PATH}/appMock-debug.apk" )
-
+        def mocked_apk_path = new File("${project.rootDir}/appMock/build/outputs/apk/appMock-debug.apk")
+        if (mocked_apk_path.exists()) {
+            ant.copy(file: "${project.rootDir}/appMock/build/outputs/apk/appMock-debug.apk", tofile: "${ANDROFLEET_PATH}/appMock-debug.apk" )
+        }
+        else {
+            println "\n ERROR: It looks like the 'initMock' task was not executed before. Please execute the 'initMock' task before this one (you only need to do it once, not everytime you want to run 'buildMock')"
+        }
     }
 }
