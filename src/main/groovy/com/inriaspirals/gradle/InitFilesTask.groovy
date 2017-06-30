@@ -31,8 +31,10 @@ class InitFilesTask extends DefaultTask{
         def javaFiles = project.fileTree(dir: "${project.rootDir}/appMock/src", include: '**/*.java')
         javaFiles.each { def javaFile ->
 
-            //replace the package imports
+            //replace the packages imports
             ant.replace(file: javaFile, token: 'android.net.wifi.p2p', value: 'mock.net.wifi.p2p')
+
+            ant.replace(file: javaFile, token: 'android.net.NetworkInfo', value: 'mock.net.NetworkInfo')
 
             //replace the creation of the Wifi manager
             javaFile.eachLine { def line ->

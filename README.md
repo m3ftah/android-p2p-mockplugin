@@ -26,9 +26,8 @@ buildscript {
 -To set the environment variables for the plugin, add the following lines to the **top-level build.gradle** in your Android Studio project repository
 ```
 androfleet {
-//the following values are example values
-  nodes 2
-  androidVersion 23
+  nodes X
+  androidVersion XX
   androfleetPath = 'path/to/your/androfleet/folder'
   dataExchangePort = 'XXX.XX.XX.'
 }

@@ -15,24 +15,33 @@ class ReportTask extends AndrofleetMethods{
         //print the content of each report text file in the androfleet repository if it is found
         for (int i=1;i<=NB_NODES;i++) {
 
-            def report_path = new File("${ANDROFLEET_PATH}/results/node${i}.json")
+            def report_json_path = new File("${ANDROFLEET_PATH}/results/node${i}.json")
+            def report_html_path = new File("${ANDROFLEET_PATH}/results/node${i-1}.html")
 
-            if (report_path.exists()) {
-                String fileContents = report_path.text
+            println report_json_path
+            println report_html_path
+
+            if (report_json_path.exists()) {
+                String fileContents = report_json_path.text
                 println "*Report for the node n°${i}\n"
                 if (fileContents == "") {
-                    println "report is empty"
+                    println "report is empty\n"
                 }
                 else {
-                    println fileContents
+                    println fileContents + '\n'
                 }
-                println "\n----------------------------------------"
             }
             else {
                 println "*Report for the node n°${i} not found"
-                println "\n----------------------------------------"
             }
-        }
 
+            if (report_html_path.exists()) {
+                println "Path to the html report (copy it in your web browser):\nfile://"+report_html_path
+            }
+            else {
+                println "Html report for the node n°${i} not found"
+            }
+            println "\n----------------------------------------"
+        }
     }
 }
