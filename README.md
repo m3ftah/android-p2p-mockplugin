@@ -29,7 +29,7 @@ androfleet {
   nodes X
   androidVersion XX
   androfleetPath = 'path/to/your/androfleet/folder'
-  dataExchangePort = 'XXX.XX.XX.'
+  dataExchangePort = XXXX
 }
 ```
 
