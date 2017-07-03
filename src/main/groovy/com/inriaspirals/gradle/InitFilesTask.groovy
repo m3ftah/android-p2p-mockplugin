@@ -52,7 +52,8 @@ class InitFilesTask extends DefaultTask{
         SetGra.eachLine { def line ->
             if (line.indexOf("include")>=0) {
                 if (line.indexOf(",':appMock'") < 0) {
-                    ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'")
+                    //ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'")
+                    ant.replaceregexp(file: SetGra, match: line, replace: "include ':appMock'")
                 }
             }
         }
@@ -69,7 +70,13 @@ class InitFilesTask extends DefaultTask{
                 '   flatDir{\n' +
                 '       dirs \'libs\'\n' +
                 '   }\n' +
-                '}')
+                '}\n' +
+                'android {\n' +
+                '    lintOptions {\n' +
+                '        abortOnError false\n' +
+                '    }\n' +
+                '}'
+                )
 
     }
 }
