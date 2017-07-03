@@ -35,11 +35,8 @@ class LaunchCalabashTask extends AndrofleetMethods{
 
 
         if (apk_path.exists()) {
-<<<<<<< refs/remotes/origin/hotfix/rsc_management
-            for (int i=1;i<=NB_NODES;i++) {
-=======
+
             for (int i=0;i<NB_NODES;i++) {
->>>>>>> updated scripts and arguments
                 "${project.rootDir}/tmp_androfleet/calabashRun.py ${i} ${ANDROFLEET_PATH}".execute()
             }
         }
