@@ -77,11 +77,19 @@ class InitFilesTask extends DefaultTask{
         //Editing of settings.gradle
         def SetGra = project.file("${project.rootDir}/settings.gradle")
         SetGra.eachLine { def line ->
+<<<<<<< refs/remotes/origin/hotfix/rsc_management
             if ((line.indexOf("include")>=0) && (line.indexOf("\':app\'")>=0) && (line.indexOf("//")<0)) {
                 ant.replaceregexp(file: SetGra, match: line, replace: "//"+line)
             }
             if ((line.indexOf("include")>=0) && (line.indexOf("\':appMock\'")>=0)) {
                 ant.replaceregexp(file: SetGra, match: line, replace: "")
+=======
+            if (line.indexOf("include")>=0) {
+                if (line.indexOf(",':appMock'") < 0) {
+                    //ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'")
+                    ant.replaceregexp(file: SetGra, match: line, replace: "include ':appMock'")
+                }
+>>>>>>> updated scripts and arguments
             }
         }
         SetGra.append('include \':appMock\'')
@@ -98,8 +106,18 @@ class InitFilesTask extends DefaultTask{
                 '   flatDir{\n' +
                 '       dirs \'libs\'\n' +
                 '   }\n' +
+<<<<<<< refs/remotes/origin/hotfix/rsc_management
                 '}'
         )
+=======
+                '}\n' +
+                'android {\n' +
+                '    lintOptions {\n' +
+                '        abortOnError false\n' +
+                '    }\n' +
+                '}'
+                )
+>>>>>>> updated scripts and arguments
 
     }
 }

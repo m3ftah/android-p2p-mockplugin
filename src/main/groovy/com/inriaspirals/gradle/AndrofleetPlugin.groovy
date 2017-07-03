@@ -44,7 +44,10 @@ class AndrofleetPlugin implements Plugin<Project> {
 
             project.tasks.create(name: "cleanMock", type: CleanTask) {}
 
+<<<<<<< refs/remotes/origin/hotfix/rsc_management
 
+=======
+>>>>>>> updated scripts and arguments
             project.tasks.create(name: "buildMock", type: BuildTask, dependsOn: project.getTasksByName('assembleDebug', true)) {
 
                 ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
