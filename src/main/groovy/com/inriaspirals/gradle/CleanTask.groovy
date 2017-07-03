@@ -14,8 +14,11 @@ class CleanTask extends DefaultTask{
         //delete changes done to the settings.gradle
         def SetGra = project.file("${project.rootDir}/settings.gradle")
         SetGra.eachLine { def line ->
-            if (line.indexOf(",':appMock'") > 0) {
-                    ant.replaceregexp(file: SetGra, match: line, replace: line - ",':appMock'", byline: "true")
+            if ((line.indexOf("include")>=0) && (line.indexOf("//")>=0)) {
+                ant.replaceregexp(file: SetGra, match: line, replace: line-"//")
+            }
+            if ((line.indexOf("include")>=0) && (line.indexOf("\':appMock\'")>=0)) {
+                ant.replaceregexp(file: SetGra, match: line, replace: "")
             }
         }
 

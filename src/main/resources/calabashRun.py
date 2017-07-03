@@ -25,11 +25,10 @@ class bcolors:
 
 # Android
 
-os.chdir(ANDROFLEET_PATH)
-
 if not os.path.exists(RESULTS):
     os.makedirs(RESULTS)
 
+os.chdir(ANDROFLEET_PATH)
 subprocess.call(['pwd'])
 subprocess.call(['calabash-android',
 'run', 'appMock-debug.apk',
@@ -39,8 +38,8 @@ subprocess.call(['calabash-android',
 '-f', 'pretty',
 '-o', 'results/node'+ node +'.txt',
 '-f', 'json', '-o', 'results/node'+ node +'.json',
-'-f', 'html', '-o', 'results/node'+ node +'.html',
-'&'
+'-f', 'html', '-o', 'results/node'+ node +'.html'
+#'&'
 ])
                 
 	

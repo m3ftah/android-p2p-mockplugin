@@ -50,12 +50,14 @@ class InitFilesTask extends DefaultTask{
         //Editing of settings.gradle
         def SetGra = project.file("${project.rootDir}/settings.gradle")
         SetGra.eachLine { def line ->
-            if (line.indexOf("include")>=0) {
-                if (line.indexOf(",':appMock'") < 0) {
-                    ant.replaceregexp(file: SetGra, match: line, replace: line + ",':appMock'")
-                }
+            if ((line.indexOf("include")>=0) && (line.indexOf("\':app\'")>=0) && (line.indexOf("//")<0)) {
+                ant.replaceregexp(file: SetGra, match: line, replace: "//"+line)
+            }
+            if ((line.indexOf("include")>=0) && (line.indexOf("\':appMock\'")>=0)) {
+                ant.replaceregexp(file: SetGra, match: line, replace: "")
             }
         }
+        SetGra.append('include \':appMock\'')
 
         //Editing of the appMock's build.gradle
         def BuiGra = project.file("${project.rootDir}/appMock/build.gradle")
@@ -69,7 +71,8 @@ class InitFilesTask extends DefaultTask{
                 '   flatDir{\n' +
                 '       dirs \'libs\'\n' +
                 '   }\n' +
-                '}')
+                '}'
+        )
 
     }
 }
