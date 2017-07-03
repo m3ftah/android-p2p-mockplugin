@@ -36,15 +36,42 @@ class InitFilesTask extends DefaultTask{
 
             ant.replace(file: javaFile, token: 'android.net.NetworkInfo', value: 'mock.net.NetworkInfo')
 
+            ant.replace(file: javaFile, token: 'android.net.ConnectivityManager', value: 'mock.net.ConnectivityManager')
+
             //replace the creation of the Wifi manager
             javaFile.eachLine { def line ->
-                if ((line.indexOf("WifiP2pManager") >= 0)&&(line.indexOf("getSystemService") >= 0)&&(line.indexOf("Context.WIFI_P2P_SERVICE") >=0 )) {
-                    def list = line.tokenize('=')
+                if ((line.indexOf("WifiP2pManager") >= 0) && (line.indexOf("="))>=0) {
 
-                    ant.replace(file: javaFile, token: line, value: list[0]+'= new WifiP2pManager();')
+                    if ((line.indexOf("getSystemService") >= 0)&&(line.indexOf("Context.WIFI_P2P_SERVICE") >=0 )) {
+
+                        def list = line.tokenize('=')
+                        ant.replace(file: javaFile, token: line, value: list[0]+'= new WifiP2pManager();')
+                    }
+                }
+                else {
+
+                    if ((line.indexOf("getSystemService") >= 0)&&(line.indexOf("Context.WIFI_P2P_SERVICE") >=0 )) {
+
+                        ant.replace(file: javaFile, token: line, value: 'new WifiP2pManager();')
+                    }
+                }
+
+                if ((line.indexOf("ConnectivityManager") >= 0)) {
+
+                    if ((line.indexOf("getSystemService") >= 0)&&(line.indexOf("Context.CONNECTIVITY_SERVICE") >=0 )) {
+
+                        def list = line.tokenize('=')
+                        ant.replace(file: javaFile, token: line, value: list[0]+'= new ConnectivityManager();')
+                    }
+                }
+                else {
+
+                    if ((line.indexOf("getSystemService") >= 0)&&(line.indexOf("Context.CONNECTIVITY_SERVICE") >=0 )) {
+
+                        ant.replace(file: javaFile, token: line, value: 'new ConnectivityManager();')
+                    }
                 }
             }
-
         }
 
         //Editing of settings.gradle
