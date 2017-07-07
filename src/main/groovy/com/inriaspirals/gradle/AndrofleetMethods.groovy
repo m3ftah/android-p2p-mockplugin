@@ -29,18 +29,20 @@ class AndrofleetMethods extends DefaultTask {
         exec("${project.rootDir}/tmp_androfleet/cleanAndrofleet.py")
     }
 
+    //execute experiment.py
+    def experiment() {
+        exec("${project.rootDir}/tmp_androfleet/experiment.py ${NB_NODES} ${PACKAGE} ${DATA_EXCHANGE_PORT} ${ADB_PATH}")
+    }
 
     //execute master.py
     def master() {
         exec("${project.rootDir}/tmp_androfleet/master.py ${NB_NODES}")
     }
 
-
     //execute node.py
     def node() {
         exec("${project.rootDir}/tmp_androfleet/node.py ${NB_NODES} ${PACKAGE} ${DATA_EXCHANGE_PORT}")
     }
-
 
     //execute servicediscovery.py
     def servicediscovery() {

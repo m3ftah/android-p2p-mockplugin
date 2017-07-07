@@ -13,16 +13,16 @@ class InitFilesTask extends DefaultTask{
 
         //Copy of the 'app/' repository to an 'appMock/' repository
         ant.copy(todir: "${project.rootDir}/appMock") {
-            fileset(dir: "${project.rootDir}/app", excludes: "**/build/")
+            fileset(dir: "${project.rootDir}/app", excludes: "**/build/", defaultexcludes:"no")
         }
 
-        //Copy of 'widi.aar' in the repository 'appMock/libs/'
+        //Copy of 'widi-debug.aar' in the repository 'appMock/libs/'
         def libs_path = new File("${project.rootDir}/appMock/libs")
         if (!libs_path.exists()) {
             new File("${project.rootDir}/appMock/libs").mkdir()
         }
-        InitFilesTask.class.getResource( '/widi.aar' ).withInputStream { ris ->
-            new File( "${project.rootDir}/appMock/libs/widi.aar" ).withOutputStream { fos ->
+        InitFilesTask.class.getResource( '/widi-debug.aar' ).withInputStream { ris ->
+            new File( "${project.rootDir}/appMock/libs/widi-debug.aar" ).withOutputStream { fos ->
                 fos << ris
             }
         }
@@ -93,7 +93,7 @@ class InitFilesTask extends DefaultTask{
                 '   //compile project(path: \':widi\')\n' +
                 '   compile \'com.google.code.gson:gson:2.7\'\n' +
                 '   compile \'org.greenrobot:eventbus:3.0.0\'\n' +
-                '   compile(name:\'widi\', ext:\'aar\')\n' +
+                '   compile(name:\'widi-debug\', ext:\'aar\')\n' +
                 '}\n' +
                 'repositories{\n' +
                 '   flatDir{\n' +
