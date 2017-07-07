@@ -18,7 +18,7 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
             tmp_path.mkdir()
         }
 
-        def pythonFiles = ["cleanAndrofleet.py","master.py","node.py","servicediscovery.py"]
+        def pythonFiles = ["cleanAndrofleet.py","experiment.py","master.py","node.py","servicediscovery.py"]
         pythonFiles.each {
             println "copy of ${it} to tmp_androfleet/"
             LaunchAndrofleetTask.class.getResource( "/${it}" ).withInputStream { ris ->
@@ -47,7 +47,12 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
             ant.chmod(file: it , perm:'+x')
         }
 
-        //Script
+
+        //Launch experiment.py
+        super.experiment()
+
+        //Following, the script equivalent to the above command
+        /*
         def HOME = System.getProperty("user.home")
 
         println 'NB_NODES= '+NB_NODES
@@ -84,6 +89,6 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
 
         println '*Launching Nodes'
         node()
-
+        */
     }
 }
