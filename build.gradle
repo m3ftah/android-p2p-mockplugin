@@ -13,6 +13,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
+    compile 'org.mongodb:mongo-java-driver:3.4.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -30,8 +31,8 @@ uploadArchives {
 //Change the following values with your local paths//
 //-------------------------------------------------//
 
-def androfleetdir = "path/to/the/Androfleet/repository"
-def sdkpath = "path/to/your/Android/SDK/repository"
+def androfleetdir = "../androfleet-master"
+def sdkpath = '/home/rodolphe/Android/Sdk'
 
 //-------------------------------------------------//
 
@@ -76,4 +77,4 @@ task copyRsrc {
         }
     }
 }
-uploadArchives.dependsOn(copyRsrc)
+//uploadArchives.dependsOn(copyRsrc)

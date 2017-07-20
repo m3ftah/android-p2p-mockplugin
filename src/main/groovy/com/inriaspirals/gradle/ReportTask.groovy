@@ -1,6 +1,5 @@
 package com.inriaspirals.gradle
 
-import com.sun.org.apache.xalan.internal.utils.FeatureManager
 import groovy.json.JsonSlurper
 import org.gradle.api.tasks.TaskAction
 
@@ -99,13 +98,13 @@ class ReportTask extends AndrofleetMethods{
                             }
 
                             //only if the step failed
-                           if (it.result.status == "failed") {
-                               sce_ok = 0
-                               error[4] = it.result.error_message
-                               Nodes[i][2]++
+                            if (it.result.status == "failed") {
+                                sce_ok = 0
+                                error[4] = it.result.error_message
+                                Nodes[i][2]++
 
-                               Errors.add(error)
-                               error = error.clone()
+                                Errors.add(error)
+                                error = error.clone()
                             }
                         }
 

@@ -15,8 +15,7 @@ class AndrofleetMethods extends DefaultTask {
     StringBuffer exout = new StringBuffer() //Standard output of a command
     StringBuffer exerr = new StringBuffer() //Error output of a command
     def exec(String command) {
-        command.execute().consumeProcessOutput(exout, exerr)
-        command.execute().waitForProcessOutput()
+        command.execute().waitForProcessOutput(exout, exerr)
         if( exout.size() > 0 ) println exout
         if( exerr.size() > 0 ) println exerr
         if( exout.size() > 0 ) exout.setLength(0)

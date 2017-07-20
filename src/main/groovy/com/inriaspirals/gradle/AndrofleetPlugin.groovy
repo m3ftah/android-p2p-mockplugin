@@ -75,6 +75,11 @@ class AndrofleetPlugin implements Plugin<Project> {
                 NB_NODES = project.extensions.androfleet.nodes
 
             }
+
+            project.tasks.create(name: "connectMongo", type: MongoDBTask) {
+                ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
+                NB_NODES = project.extensions.androfleet.nodes
+            }
         }
     }
 }
