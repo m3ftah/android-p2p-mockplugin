@@ -41,7 +41,7 @@ task copyRsrc {
 
     StringBuffer exout = new StringBuffer() //Standard output of a command
     StringBuffer exerr = new StringBuffer() //Error output of a command
-    ext.exec = { String command ->
+    ext.exec = { List<String> command ->
         command.execute().consumeProcessOutput(exout, exerr)
         command.execute().waitForProcessOutput()
         if( exout.size() > 0 ) println exout
@@ -62,8 +62,8 @@ task copyRsrc {
     doLast {
 
         //compilation before copy
-        ext.exec("${androfleetdir}/docker/build-core.py")
-        ext.exec("${androfleetdir}/widi/gradlew -b ${androfleetdir}/widi/build.gradle -c ${androfleetdir}/widi/settings.gradle  -p ${androfleetdir}/widi build")
+        ext.exec(["${androfleetdir}/docker/build-core.py"])
+        ext.exec(["${androfleetdir}/widi/gradlew",'-b',"${androfleetdir}/widi/build.gradle",'-c',"${androfleetdir}/widi/settings.gradle",'-p',"${androfleetdir}/widi build"])
 
         //copy of the needed resources to the /src/main/resources/ repository of the plugin
         ant.copy(todir: "./src/main/resources/") {
@@ -77,4 +77,4 @@ task copyRsrc {
         }
     }
 }
-//uploadArchives.dependsOn(copyRsrc)
+uploadArchives.dependsOn(copyRsrc)

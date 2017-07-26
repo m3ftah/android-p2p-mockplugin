@@ -2,8 +2,6 @@ package com.inriaspirals.gradle
 
 import org.gradle.api.tasks.TaskAction
 
-
-
 class MongoDBTask extends AndrofleetMethods {
     String group = "androfleet/tests"
 
@@ -13,10 +11,15 @@ class MongoDBTask extends AndrofleetMethods {
     def connect() {
 
         println "remove reportsDB"
-        exec("docker rm -f reportsDB")
+        exec(['docker','rm','-f','reportsDB'])
 
         println "create the DB in the container 'reportsDB'"
-        def command = "docker run --name reportsDB -v ${ANDROFLEET_PATH}/results/:/results -p 27017:27017 -d mongo"
+        def command = ['docker','run',
+                       '--name','reportsDB',
+                       '-v',"${ANDROFLEET_PATH}/results/:/results",
+                       '-v',"${project.rootDir}/tmp_androfleet/:/tmp_androfleet",
+                       '-p','27017:27017',
+                       '-d','mongo']
         exec(command)
 
         println "import the json files"
@@ -26,7 +29,12 @@ class MongoDBTask extends AndrofleetMethods {
 
             if (report_json_path.exists()) {
                 println report_json_path
-                command = "docker exec reportsDB mongoimport --port 27017 --db test --collection nodes --jsonArray --file /results/node${i}.json"
+                command = ['docker','exec','reportsDB','mongoimport',
+                           '--port','27017',
+                           '--db','test',
+                           '--collection','features',
+                           '--jsonArray',
+                           '--file',"/results/node${i}.json"]
                 exec(command)
             }
         }

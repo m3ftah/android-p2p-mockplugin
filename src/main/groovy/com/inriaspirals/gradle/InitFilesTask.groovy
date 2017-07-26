@@ -106,7 +106,5 @@ class InitFilesTask extends DefaultTask{
                 '    }\n' +
                 '}'
                 )
-
-
     }
 }
