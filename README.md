@@ -27,10 +27,10 @@ buildscript {
 -To set the extension variables for the plugin, add the following lines to the **top-level build.gradle** in your Android Studio project repository
 ```
 androfleet {
-  nodes X
-  androidVersion XX
+  nodes X  //Number of nodes to work with
+  androidVersion XX  //The android version to realise the tests on
   androfleetPath = 'path/to/your/androfleet/folder'  //This is the repository containing the calabash scripts
-  dataExchangePort = XXXX
+  dataExchangePort = XXXX  //The exchange port for the docker nodes
 }
 ```
 
@@ -52,7 +52,10 @@ if the code of appMock is modified
 
 -**launchTests** will run the calabash scripts on each respective node and create execution reports
 
--**printTestReport** will display the content of the reports created by the 'launchTests' task
+-**launchMongo** will create a mongo DB inside a docker container to stock the results of the tests
+
+-**requestMongoByFeatures** & **requestMongoByNodes** will print a report including all failing elements of the test, 
+one sorted by features and the other one sorted by nodes
 
 -**cleanAndrofleet** will delete every temporary files created by the plugin to launch the tests.
 
@@ -80,15 +83,11 @@ into "androfleetplugin/src/main/resources" (libraries, python scripts, etc) and 
 archive containing all those resources. The archives will be inside the **"Androfleet_Plugin/"** repository mentionned
 above.
 
-You can then use the plugin in the Android porject you want to test by following the instructions of **Use the plugin
+You can then use the plugin in the Android project you want to test by following the instructions of **Use the plugin
 with the release version** above, the plugin's release repository will be the "Androfleet_Plugin/" repository you just
 created.
 
 ### Notes
-
-If you export the project several times you may need to stop the Daemon in Android Studio using ```./gradlew -stop```
-in the terminal in order for any task copying resource files to work properly. You could need to do that every time you 
-re-upload the plugin and want to use those tasks again.
 
 Don't mix-up the required folders, there are three different folders:
 

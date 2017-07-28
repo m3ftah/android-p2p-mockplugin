@@ -11,11 +11,6 @@ class MongoRequestTask extends AndrofleetMethods {
     @TaskAction
     def request() {
 
-        //copy the script queryMongoFeatures.js into /tmp_androfleet
-        def tmp_path = new File("${project.rootDir}/tmp_androfleet")
-        if (!tmp_path.exists()) {
-
-        }
 
         //check if the reportsDB container is running
         StringBuffer exout = new StringBuffer()
@@ -25,6 +20,7 @@ class MongoRequestTask extends AndrofleetMethods {
 
         if( exout.toString().indexOf('true') == 1) {//avoid any special character
 
+            //copy the script queryMongoFeatures.js into /tmp_androfleet, repository created at the creation of the DB
             MongoRequestTask.class.getResource( "/queryMongoFeatures.js" ).withInputStream { ris ->
                 new File("${project.rootDir}/tmp_androfleet/queryMongoFeatures.js").withOutputStream { fos ->
                     fos << ris
