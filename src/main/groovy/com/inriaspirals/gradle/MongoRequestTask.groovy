@@ -6,6 +6,7 @@ class MongoRequestTask extends AndrofleetMethods {
     String group = "androfleet/tests"
 
     String DISPLAY_TYPE
+    String SORT_TYPE
 
     @TaskAction
     def request() {
@@ -13,17 +14,30 @@ class MongoRequestTask extends AndrofleetMethods {
         //copy the script queryMongoFeatures.js into /tmp_androfleet
         def tmp_path = new File("${project.rootDir}/tmp_androfleet")
         if (!tmp_path.exists()) {
-            tmp_path.mkdir()
+
         }
-        MongoRequestTask.class.getResource( "/queryMongoFeatures.js" ).withInputStream { ris ->
-            new File("${project.rootDir}/tmp_androfleet/queryMongoFeatures.js").withOutputStream { fos ->
-                fos << ris
+
+        //check if the reportsDB container is running
+        StringBuffer exout = new StringBuffer()
+        StringBuffer exerr = new StringBuffer()
+        ['docker','inspect','-f','\'{{.State.Running}}\'','reportsDB'].execute().waitForProcessOutput(exout,exerr)
+
+
+        if( exout.toString().indexOf('true') == 1) {//avoid any special character
+
+            MongoRequestTask.class.getResource( "/queryMongoFeatures.js" ).withInputStream { ris ->
+                new File("${project.rootDir}/tmp_androfleet/queryMongoFeatures.js").withOutputStream { fos ->
+                    fos << ris
+                }
             }
+            ant.chmod(dir: "${project.rootDir}/tmp_androfleet" , perm:'+x', includes: '**/*.js')
+
+
+            def process = ['docker','exec','reportsDB','mongo','test','--eval',"var sort_type = \'${SORT_TYPE}\' , display_choice = \'${DISPLAY_TYPE}\'",'/tmp_androfleet/queryMongoFeatures.js']
+            exec(process)
         }
-        ant.chmod(dir: "${project.rootDir}/tmp_androfleet" , perm:'+x', includes: '**/*.py')
-
-
-        def process = ['docker','exec','reportsDB','mongo','test','--eval',"var display_choice = \'${DISPLAY_TYPE}\'",'/tmp_androfleet/queryMongoFeatures.js']
-        exec(process)
+        else {
+            println '\nThe mongo DataBase is not running, please run the \'launchMongo\' task'
+        }
     }
 }

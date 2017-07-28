@@ -13,6 +13,11 @@ class MongoDBTask extends AndrofleetMethods {
         println "remove reportsDB"
         exec(['docker','rm','-f','reportsDB'])
 
+        def tmp_path = new File("${project.rootDir}/tmp_androfleet")
+        if (!tmp_path.exists()) {
+            tmp_path.mkdir()
+        }
+
         println "create the DB in the container 'reportsDB'"
         def command = ['docker','run',
                        '--name','reportsDB',
@@ -36,6 +41,9 @@ class MongoDBTask extends AndrofleetMethods {
                            '--jsonArray',
                            '--file',"/results/node${i}.json"]
                 exec(command)
+            }
+            else {
+                println "node${i}.json doesn't exist"
             }
         }
     }

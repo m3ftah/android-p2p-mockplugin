@@ -26,5 +26,8 @@ class CleanAndrofleetTask extends AndrofleetMethods{
         super.cleanandrofleet()
 
         ant.delete(dir: "${project.rootDir}/tmp_androfleet")
+
+        println "The mongo DataBase will be deleted ..."
+        exec(['docker','rm','-f','reportsDB'])
     }
 }

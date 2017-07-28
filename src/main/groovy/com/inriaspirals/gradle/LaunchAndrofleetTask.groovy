@@ -48,7 +48,41 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
         }
 
         //Launch experiment.py
-        super.experiment()
+        exec(["${project.rootDir}/tmp_androfleet/experiment.py","${NB_NODES}","${PACKAGE}","${DATA_EXCHANGE_PORT}","${ADB_PATH}","${project.rootDir}/tmp_androfleet"])
 
+        //Following, the script equivalent to the above command
+
+        /*
+        println '*Launching docker'
+        exec(["pwd"])
+
+        println '*Cleaning...'
+        exec(["${project.rootDir}/tmp_androfleet/cleanAndrofleet.py"])
+
+        println '*Launching Weave'
+        exec(['weave','launch','--ipalloc-range','192.168.48.0/23'])
+
+        println '*Exposing Weave'
+        exec(['weave','expose'])
+
+        println '*Exposing xhost'
+        exec(['xhost','+'])
+
+        println '*Launching adb'
+        exec(["${ADB_PATH}",'devices'])
+
+        println '*Redirecting adb port to weave'
+        exec(['redir','--cport','5037','--caddr','127.0.0.1','--lport','5037','--laddr','192.168.48.1 &'])
+
+        println '*Launching Master'
+        exec(["${project.rootDir}/tmp_androfleet/master.py","${NB_NODES}"])
+
+        println '*Launching Service Discovery'
+        exec(["${project.rootDir}/tmp_androfleet/servicediscovery.py"])
+
+        println '*Launching Nodes'
+        exec(["${project.rootDir}/tmp_androfleet/node.py","${NB_NODES}","${PACKAGE}","${DATA_EXCHANGE_PORT}"])
+
+        */
     }
 }

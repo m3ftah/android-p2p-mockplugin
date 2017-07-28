@@ -60,16 +60,11 @@ class AndrofleetPlugin implements Plugin<Project> {
 
             }
 
-            project.tasks.create(name: "cleanAndrofleet", type: CleanAndrofleetTask) {}
-
-            project.tasks.create(name: "launchTests", type: LaunchCalabashTask) {
-
-                ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
-                NB_NODES = project.extensions.androfleet.nodes
+            project.tasks.create(name: "cleanAndrofleet", type: CleanAndrofleetTask) {
 
             }
 
-            project.tasks.create(name: "printTestReport", type: ReportTask) {
+            project.tasks.create(name: "launchTests", type: LaunchCalabashTask) {
 
                 ANDROFLEET_PATH = project.extensions.androfleet.androfleetPath
                 NB_NODES = project.extensions.androfleet.nodes
@@ -81,7 +76,13 @@ class AndrofleetPlugin implements Plugin<Project> {
                 NB_NODES = project.extensions.androfleet.nodes
             }
 
-            project.tasks.create(name: "requestMongo", type: MongoRequestTask) {
+            project.tasks.create(name: "requestMongoByFeatures", type: MongoRequestTask) {
+                SORT_TYPE = 'features'
+                DISPLAY_TYPE = project.extensions.androfleet.displayType
+            }
+
+            project.tasks.create(name: "requestMongoByNodes", type: MongoRequestTask) {
+                SORT_TYPE = 'nodes'
                 DISPLAY_TYPE = project.extensions.androfleet.displayType
             }
         }
