@@ -3,6 +3,7 @@
 build
 out 
 .gradle
+Androfleet_Plugin
 
 
 # IDE generated files #

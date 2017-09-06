@@ -3,9 +3,6 @@
 import os
 import sys
 import subprocess
-import argparse
-import json
-import shutil
 
 node = sys.argv[1]
 ANDROFLEET_PATH = sys.argv[2]

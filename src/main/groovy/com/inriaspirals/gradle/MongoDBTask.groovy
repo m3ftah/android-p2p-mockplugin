@@ -21,7 +21,7 @@ class MongoDBTask extends AndrofleetMethods {
         println "create the DB in the container 'reportsDB'"
         def command = ['docker','run',
                        '--name','reportsDB',
-                       '-v',"${ANDROFLEET_PATH}/results/:/results",
+                       '-v',"${project.rootDir}/${ANDROFLEET_PATH}/results/:/results",
                        '-v',"${project.rootDir}/tmp_androfleet/:/tmp_androfleet",
                        '-p','27017:27017',
                        '-d','mongo']

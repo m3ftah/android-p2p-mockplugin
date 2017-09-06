@@ -73,6 +73,13 @@ class InitFilesTask extends DefaultTask{
                 }
             }
         }
+        //Editing of the .java files
+        def mainfestFiles = project.fileTree(dir: "${project.rootDir}/appMock/src/main", include: 'AndroidManifest.xml')
+        mainfestFiles.each { def javaFile ->
+            //replace the packages imports
+            ant.replace(file: javaFile, token: 'android.net.wifi.p2p', value: 'mock')
+
+        }
 
         //Editing of settings.gradle
         def SetGra = project.file("${project.rootDir}/settings.gradle")

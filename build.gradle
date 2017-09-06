@@ -22,7 +22,7 @@ apply plugin: 'maven'
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri('../Androfleet_Plugin'))
+            repository(url: uri('./Androfleet_Plugin'))
         }
     }
 }
@@ -31,8 +31,8 @@ uploadArchives {
 //Change the following values with your local paths//
 //-------------------------------------------------//
 
-def androfleetdir = "../androfleet-master"
-def sdkpath = '/home/rodolphe/Android/Sdk'
+def androfleetdir = "../androfleet"
+def sdkpath = '/home/lakhdar/Android/Sdk'
 
 //-------------------------------------------------//
 
