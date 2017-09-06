@@ -13,6 +13,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
+    compile 'org.mongodb:mongo-java-driver:3.4.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -25,3 +26,55 @@ uploadArchives {
         }
     }
 }
+
+//-------------------------------------------------//
+//Change the following values with your local paths//
+//-------------------------------------------------//
+
+def androfleetdir = "../androfleet-master"
+def sdkpath = '/home/rodolphe/Android/Sdk'
+
+//-------------------------------------------------//
+
+
+task copyRsrc {
+
+    StringBuffer exout = new StringBuffer() //Standard output of a command
+    StringBuffer exerr = new StringBuffer() //Error output of a command
+    ext.exec = { List<String> command ->
+        command.execute().consumeProcessOutput(exout, exerr)
+        command.execute().waitForProcessOutput()
+        if( exout.size() > 0 ) println exout
+        if( exerr.size() > 0 ) println exerr
+        if( exout.size() > 0 ) exout.setLength(0)
+        if( exerr.size() > 0 ) exerr.setLength(0)
+    }
+
+    def local_properties = new File("${androfleetdir}/widi/local.properties")
+    local_properties.append("") //in order to create the file if it wasn't existing
+    local_properties.eachLine { def line ->
+        if (line.indexOf("sdk.dir") >= 0) {
+            ant.replace(file: local_properties, token: line, value: "")
+        }
+    }
+    local_properties.append("\nsdk.dir= ${sdkpath}")
+
+    doLast {
+
+        //compilation before copy
+        ext.exec(["${androfleetdir}/docker/build-core.py"])
+        ext.exec(["${androfleetdir}/widi/gradlew",'-b',"${androfleetdir}/widi/build.gradle",'-c',"${androfleetdir}/widi/settings.gradle",'-p',"${androfleetdir}/widi build"])
+
+        //copy of the needed resources to the /src/main/resources/ repository of the plugin
+        ant.copy(todir: "./src/main/resources/") {
+            ant.fileset(dir: "${androfleetdir}/docker/", includes: ["", "cleanAndrofleet.py", "experiment.py", "master.py", "node.py", "servicediscovery.py", ""])
+        }
+        ant.copy(todir: "./src/main/resources/") {
+            ant.fileset(dir: "${androfleetdir}/widi/widi/build/outputs/aar", includes: "widi-debug.aar")
+        }
+        ant.zip(destfile: "./src/main/resources/docker.zip") {
+            ant.fileset(dir: "${androfleetdir}/docker", includes: ["","build/*","avd/*",""])
+        }
+    }
+}
+uploadArchives.dependsOn(copyRsrc)

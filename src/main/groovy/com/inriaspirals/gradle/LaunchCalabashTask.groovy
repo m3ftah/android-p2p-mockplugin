@@ -33,7 +33,6 @@ class LaunchCalabashTask extends AndrofleetMethods{
             results_path.mkdir()
         }
 
-
         if (apk_path.exists()) {
 
             for (int i=0;i<NB_NODES;i++) {

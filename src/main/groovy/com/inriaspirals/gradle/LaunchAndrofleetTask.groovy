@@ -18,7 +18,7 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
             tmp_path.mkdir()
         }
 
-        def pythonFiles = ["cleanAndrofleet.py","master.py","node.py","servicediscovery.py"]
+        def pythonFiles = ["cleanAndrofleet.py","experiment.py","master.py","node.py","servicediscovery.py"]
         pythonFiles.each {
             println "copy of ${it} to tmp_androfleet/"
             LaunchAndrofleetTask.class.getResource( "/${it}" ).withInputStream { ris ->
@@ -47,43 +47,42 @@ class LaunchAndrofleetTask extends AndrofleetMethods {
             ant.chmod(file: it , perm:'+x')
         }
 
-        //Script
-        def HOME = System.getProperty("user.home")
+        //Launch experiment.py
+        exec(["${project.rootDir}/tmp_androfleet/experiment.py","${NB_NODES}","${PACKAGE}","${DATA_EXCHANGE_PORT}","${ADB_PATH}","${project.rootDir}/tmp_androfleet"])
 
-        println 'NB_NODES= '+NB_NODES
-        println 'ANDROID_VERSION= '+ANDROID_VERSION
-        println 'ADB_PATH= '+ADB_PATH+'\n'
+        //Following, the script equivalent to the above command
 
-
+        /*
         println '*Launching docker'
-        exec("pwd")
+        exec(["pwd"])
 
         println '*Cleaning...'
-        cleanandrofleet()
+        exec(["${project.rootDir}/tmp_androfleet/cleanAndrofleet.py"])
 
         println '*Launching Weave'
-        exec("weave launch --ipalloc-range 192.168.48.0/23")
+        exec(['weave','launch','--ipalloc-range','192.168.48.0/23'])
 
         println '*Exposing Weave'
-        exec("weave expose")
+        exec(['weave','expose'])
 
         println '*Exposing xhost'
-        exec("xhost +")
+        exec(['xhost','+'])
 
         println '*Launching adb'
-        exec("${ADB_PATH} devices")
+        exec(["${ADB_PATH}",'devices'])
 
         println '*Redirecting adb port to weave'
-        exec("redir --cport 5037 --caddr 127.0.0.1 --lport 5037 --laddr 192.168.48.1 &")
+        exec(['redir','--cport','5037','--caddr','127.0.0.1','--lport','5037','--laddr','192.168.48.1 &'])
 
         println '*Launching Master'
-        master()
+        exec(["${project.rootDir}/tmp_androfleet/master.py","${NB_NODES}"])
 
         println '*Launching Service Discovery'
-        servicediscovery()
+        exec(["${project.rootDir}/tmp_androfleet/servicediscovery.py"])
 
         println '*Launching Nodes'
-        node()
+        exec(["${project.rootDir}/tmp_androfleet/node.py","${NB_NODES}","${PACKAGE}","${DATA_EXCHANGE_PORT}"])
 
+        */
     }
 }
