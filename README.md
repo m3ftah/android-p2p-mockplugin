@@ -1,4 +1,5 @@
 # androfleet-plugin
+Androfleet-plugin for gradle, it can be used with [Androfleet](https://github.com/m3ftah/androfleet) to test large scale Android p2p apps in the large
 
 ## Use the plugin with the release version
 
@@ -100,3 +101,7 @@ enclosure of the build.gradle of the Android project you want to test ;
 -the folder containing the Androfleet resources, which is used only if you want to build the plugin yourself, and whose
 absolute path must be declared inside the build.gradle of the plugin's project.
 
+
+# Using Androfleet
+If you are using Androfleet, please cite the following research paper:
+>AndroFleet: Testing WiFi Peer-to-Peer Mobile Apps in the Large. L. Meftah, M. Gomez, R. Rouvoy, I. Chrisment - 32nd IEEE/ACM International Conference on Automated Software Engineering (ASE 2017), Oct 2017. [Youtube](https://youtu.be/gJ5_Ed7XL04), [pdf](https://hal.inria.fr/hal-01574466/)
